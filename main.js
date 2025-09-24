@@ -7,7 +7,7 @@ const playerChoiceDisplay = document.getElementById('player-choice');
 const computerChoiceDisplay = document.getElementById('computer-choice');
 
 const playerScoreDisplay = document.getElementById('player-score');
-const computerScoreeDisplay = document.getElementById('computer-score');
+const computerScoreDisplay = document.getElementById('computer-score');
 
 const resetButton = document.getElementById('reset-button');
 const historyList = document.getElementById('history-list');
@@ -19,9 +19,8 @@ const options = ['pedra', 'papel', 'tesoura'];
 
 function playGame(playerChoice) {
     const computerChoice = options[Math.floor(Math.random() * options.length)];
-
-    playerChoiceDisplay.textContent = 'Sua escolha: ${playerChoice}';
-    computerChoiceDisplay.textContent = 'Escolha do computador: ${computerChoice}';
+    playerChoiceDisplay.textContent = `Sua escolha: ${playerChoice}`;
+    computerChoiceDisplay.textContent = `Escolha do computador: ${computerChoice}`;
 
     let result = '';
     if (playerChoice === computerChoice) {
@@ -48,7 +47,7 @@ resultMessage.textContent = result;
 
 function addToHistory(playerChoice, computerChoice, result) {
     const historyItem = document.createElement('li');
-    historyItem.textContent = 'Você escolheu ${playerChoice}, o computador escolheu ${computerChoice}. Resultado: ${result}';
+    historyItem.textContent = `Você escolheu ${playerChoice}, o computador escolheu ${computerChoice}. Resultado: ${result}`;
     
     historyList.prepend(historyItem);
 }
