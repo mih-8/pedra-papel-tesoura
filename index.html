@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedra, Papel e Tesoura</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Pedra, Papel, Tesoura</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
+    <div class="container">
+        <h1>Pedra, Papel, Tesoura</h1>
 
-    <main class="game-container"></main>
-         <h1>pedra, Papel e Tesoura</h1>
+        <div class="escolhas">
+            <button id="pedra" class="opcao">🪨 Pedra</button>
+            <button id="papel" class="opcao">📄 Papel</button>
+            <button id="tesoura" class="opcao">✂️ Tesoura</button>
+        </div>
 
-         <section class="game-display">
-            <div id="player-choice">Sua escolha:</div>
-            <div id="computer-choice">Escolha do computador:</div>
-         </section>
+        <div class="resultado-area">
+            <p id="escolhaJogador" class="escolha-texto">Você escolheu: -</p>
+            <p id="escolhaComputador" class="escolha-texto">Computador escolheu: -</p>
+            
+            <h2 id="resultadoMensagem" class="mensagem-final">Faça sua jogada!</h2>
+        </div>
+
+        <div class="placar">
+            <span>Você: <span id="pontosJogador">0</span></span>
+            <span>Computador: <span id="pontosComputador">0</span></span>
+        </div>
         
-         <section class="options-container">
-            <button id="rock" class="option-button">Pedra</button>
-            <button id="paper" class="option-button">Papel</button>
-            <button id="scissors" class="option-button">Tesoura</button>
-        </section>
+        <button id="botaoReiniciar">Reiniciar Placar</button>
+    </div>
 
-        <section class="score-container">
-            <p>Placar:</p>
-            <P>Você: <span id="player-score">0</span></P>
-            <p>computador: <span id="computer-score">0</span></p>
-            <button id="reset-button">Reiniciar Placar</button>
-        </section>
-    </main>
-    
     <script src="main.js"></script>
 </body>
 </html>

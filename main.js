@@ -1,68 +1,84 @@
-const rockButton = document.getElementById('rock');
-const paperButton = document.getElementById('paper');
-const scissorsButton = document.getElementById('scissors');
+let pontosJogador = 0;
+let pontosComputador = 0;
 
-const resultMessage = document.getElementById('result-message');
-const playerChoiceDisplay = document.getElementById('player-choice');
-const computerChoiceDisplay = document.getElementById('computer-choice');
+const escolhasMapeamento = {
+    'pedra': '🪨 Pedra',
+    'papel': '📄 Papel',
+    'tesoura': '✂️ Tesoura'
+};
 
-const playerScoreDisplay = document.getElementById('player-score');
-const computerScoreDisplay = document.getElementById('computer-score');
+const botoesOpcao = document.querySelectorAll('.opcao');
+const pontosJogadorDisplay = document.getElementById('pontosJogador');
+const pontosComputadorDisplay = document.getElementById('pontosComputador');
+const escolhaJogadorDisplay = document.getElementById('escolhaJogador');
+const escolhaComputadorDisplay = document.getElementById('escolhaComputador');
+const resultadoMensagem = document.getElementById('resultadoMensagem');
+const botaoReiniciar = document.getElementById('botaoReiniciar');
 
-const resetButton = document.getElementById('reset-button');
-const historyList = document.getElementById('history-list');
+function jogar(escolhaJogador) {
+    const opcoes = ['pedra', 'papel', 'tesoura'];
+    const escolhaComputador = opcoes[Math.floor(Math.random() * opcoes.length)];
 
-let playerScore = 0;
-let computerScore = 0;
+    escolhaJogadorDisplay.textContent = `Você escolheu: ${escolhasMapeamento[escolhaJogador]}`;
+    escolhaComputadorDisplay.textContent = `Computador escolheu: ${escolhasMapeamento[escolhaComputador]}`;
 
-const options = ['pedra', 'papel', 'tesoura'];
+    const resultado = determinarVencedor(escolhaJogador, escolhaComputador);
 
-function playGame(playerChoice) {
-    const computerChoice = options[Math.floor(Math.random() * options.length)];
-    playerChoiceDisplay.textContent = `Sua escolha: ${playerChoice}`;
-    computerChoiceDisplay.textContent = `Escolha do computador: ${computerChoice}`;
+    atualizarPlacar(resultado);
+}
 
-    let result = '';
-    if (playerChoice === computerChoice) {
-        result = "Empate!";
+function determinarVencedor(jogador, computador) {
+    if (jogador === computador) {
+        return 'empate';
     } else if (
-        (playerChoice === 'Pedra' && computerChoice === 'Tesoura') ||
-        (playerChoice === 'Papel' && computerChoice === 'Pedra') ||
-        (playerChoice === 'Tesoura' && computerChoice === 'Papel')
-
+        (jogador === 'pedra' && computador === 'tesoura') ||
+        (jogador === 'papel' && computador === 'pedra') ||
+        (jogador === 'tesoura' && computador === 'papel')
     ) {
-        result = 'Você venceu!';
-        playerScore++;
+        return 'jogador';
     } else {
-        result = 'Você perdeu!';
-        computerScore++;
+        return 'computador';
+    }
+}
+
+function atualizarPlacar(resultado) {
+    resultadoMensagem.classList.remove('vitoria', 'derrota', 'empate');
+
+    if (resultado === 'jogador') {
+        pontosJogador++;
+        resultadoMensagem.textContent = 'VOCÊ VENCEU A RODADA!';
+        resultadoMensagem.classList.add('vitoria');
+    } else if (resultado === 'computador') {
+        pontosComputador++;
+        resultadoMensagem.textContent = 'Você perdeu a rodada...';
+        resultadoMensagem.classList.add('derrota');
+    } else {
+        resultadoMensagem.textContent = 'Empate!';
+        resultadoMensagem.classList.add('empate');
     }
 
-resultMessage.textContent = result;
-    playerScoreDisplay.textContent = playerScore;
-    computerScoreDisplay.textContent = computerScore;
-
-    addToHistory(playerChoice, computerChoice, result);
+    pontosJogadorDisplay.textContent = pontosJogador;
+    pontosComputadorDisplay.textContent = pontosComputador;
 }
 
-function addToHistory(playerChoice, computerChoice, result) {
-    const historyItem = document.createElement('li');
-    historyItem.textContent = `Você escolheu ${playerChoice}, o computador escolheu ${computerChoice}. Resultado: ${result}`;
+function reiniciarPlacar() {
+    pontosJogador = 0;
+    pontosComputador = 0;
+    pontosJogadorDisplay.textContent = pontosJogador;
+    pontosComputadorDisplay.textContent = pontosComputador;
     
-    historyList.prepend(historyItem);
-}
-
-function resetGame() {
-    playerScore = 0;
-    computerScore = 0;
-    playerScoreDisplay.textContent = playerScore;
-    computerScoreDisplay.textContent = computerScore;
-    resultMessage.textContent = 'Placar reiniciado! Escolha uma opção para começar!';
+    resultadoMensagem.classList.remove('vitoria', 'derrota', 'empate');
+    resultadoMensagem.textContent = 'Placar reiniciado! Faça sua jogada!';
     
-    historyList.innerHTML = '';
+    escolhaJogadorDisplay.textContent = 'Você escolheu: -';
+    escolhaComputadorDisplay.textContent = 'Computador escolheu: -';
 }
 
-rockButton.addEventListener('click', () => playGame('Pedra'));
-paperButton.addEventListener('click', () => playGame('Papel'));
-scissorsButton.addEventListener('click', () => playGame('Tesoura'));
-resetButton.addEventListener('click', resetGame);
+botoesOpcao.forEach(botao => {
+    botao.addEventListener('click', (event) => {
+        const escolha = event.currentTarget.id;
+        jogar(escolha);
+    });
+});
+
+botaoReiniciar.addEventListener('click', reiniciarPlacar);
